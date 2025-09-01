@@ -1,140 +1,178 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os
 import sys
+import json
 import subprocess
-import tempfile
-import base64
-from pathlib import Path
-from datetime import date
-from dotenv import load_dotenv
+from datetime import date, timedelta
+
 import streamlit as st
-from streamlit import components
 
-# Carrega variáveis do .env se existir (NÃO exponho chaves na UI)
-# .env deve conter:
-# OPENAI_API_KEY=sk-...
-# CONVERTAPI_TOKEN=xxxxxxxx
-load_dotenv()
+# tentar carregar .env se a lib existir; se não existir, passa batido
+try:
+    from dotenv import load_dotenv  # type: ignore
+    load_dotenv()
+except Exception:
+    pass
 
-# Caminho absoluto do script principal
-SCRIPT = (Path(__file__).parent / "licitacoes_pdf.py").resolve()
+# ====== chaves (preferir Secrets quando hospedado) ======
+OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY") if hasattr(st, "secrets") else None
+if not OPENAI_API_KEY:
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-st.set_page_config(page_title="Relatório de Licitações", page_icon="📄", layout="centered")
+CONVERTAPI_TOKEN = st.secrets.get("CONVERTAPI_TOKEN") if hasattr(st, "secrets") else None
+if not CONVERTAPI_TOKEN:
+    CONVERTAPI_TOKEN = os.getenv("CONVERTAPI_TOKEN")
+
+# ====== caminhos ======
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_PATH = os.path.join(HERE, "licitacoes_pdf.py")
+
+if not os.path.exists(SCRIPT_PATH):
+    st.error(f"Arquivo 'licitacoes_pdf.py' não encontrado em: {SCRIPT_PATH}")
+    st.stop()
+
+st.set_page_config(page_title="Relatório de Licitações (PNCP)", layout="wide")
 st.title("Relatório de Licitações (PNCP)")
 
+# ====== UI ======
 with st.sidebar:
-    st.header("Parâmetros")
+    st.subheader("Parâmetros de busca")
 
+    # Palavra, UF, Órgão
+    palavra = st.text_input("Palavra-chave (ex.: software)", value="")
+    col_uf, col_org = st.columns([1, 2])
+    with col_uf:
+        uf = st.text_input("UF (opcional)", value="", max_chars=2).upper()
+    with col_org:
+        orgao = st.text_input("Órgão (opcional)", value="")
 
-    MODALIDADES = [
+    # Valor mínimo (NOVO CAMPO)
+    min_valor = st.number_input("Valor mínimo (R$)", min_value=0.0, step=1000.0, format="%.2f")
+
+    # Modalidade
+    modalidades = [
         "pregao eletronico",
         "pregao presencial",
         "concorrencia eletronica",
         "concorrencia presencial",
         "dispensa",
         "inexigibilidade",
+        "credenciamento",
         "dialogo competitivo",
         "concurso",
-        "leilao eletronico",
-        "leilao presencial",
         "manifestacao de interesse",
         "pre-qualificacao",
-        "credenciamento",
+        "leilao eletronico",
+        "leilao presencial",
         "inaplicabilidade",
     ]
-    modalidade = st.selectbox("Modalidade", MODALIDADES, index=0)
+    modalidade = st.selectbox("Modalidade", modalidades, index=0)
 
-    palavra = st.text_input("Palavra-chave (opcional)", value="")
-    uf = st.text_input("UF (opcional, ex: SP)", value="")
+    # Datas (calendário)
+    today = date.today()
+    d_final = st.date_input("Data final", value=today)
+    d_inicial = st.date_input("Data inicial", value=today - timedelta(days=30))
+    if d_inicial > d_final:
+        st.warning("A data inicial não pode ser maior que a data final.")
 
-    # Calendário
-    col1, col2 = st.columns(2)
-    with col1:
-        d_ini = st.date_input("Data inicial", value=date(2025, 7, 13), format="DD/MM/YYYY")
-    with col2:
-        d_fim = st.date_input("Data final", value=date(2025, 8, 12), format="DD/MM/YYYY")
+    # Demais opções
+    tamanho_pagina = st.slider("Tamanho da página (resultados PNCP)", min_value=10, max_value=200, value=50, step=10)
+    use_ai = st.checkbox("Usar IA (Resumo + Análise por item)", value=True)
+    gen_pdf = st.checkbox("Gerar PDF (via ConvertAPI)", value=False)
+    show_inline = st.checkbox("Exibir HTML dentro do app", value=True)
+    filename = st.text_input("Nome do PDF (quando marcado)", value="licitacoes.pdf")
 
-    def to_yyyymmdd(d: date) -> str:
-        return f"{d.year:04d}{d.month:02d}{d.day:02d}"
+    run_btn = st.button("Gerar relatório")
 
-    data_inicial = to_yyyymmdd(d_ini)
-    data_final = to_yyyymmdd(d_fim)
+st.divider()
 
-    tamanho_pagina = st.number_input("Tamanho página (10-200)", min_value=10, max_value=200, value=20, step=10)
-    ai = st.checkbox("Usar IA (OpenAI)", value=False)
-    pdf = st.checkbox("Gerar PDF (ConvertAPI)", value=False)
+# ====== Execução ======
+def yyyymmdd(d: date) -> str:
+    return d.strftime("%Y%m%d")
 
-# Chaves SOMENTE por ambiente/.env
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-CONVERTAPI_TOKEN = os.getenv("CONVERTAPI_TOKEN", "")
+if run_btn:
+    # Monta comando
+    args = [
+        sys.executable,
+        SCRIPT_PATH,
+        "--modalidade", modalidade,
+        "--data-inicial", yyyymmdd(d_inicial),
+        "--data-final", yyyymmdd(d_final),
+        "--tamanho-pagina", str(tamanho_pagina),
+        "--ai", "1" if use_ai else "0",
+        "--pdf", "1" if gen_pdf else "0",
+        "--filename", filename,
+    ]
+    if palavra:
+        args += ["--palavra", palavra]
+    if uf:
+        args += ["--uf", uf]
+    if orgao:
+        args += ["--orgao", orgao]
+    # >>> NOVO: passa valor mínimo <<<
+    if min_valor and float(min_valor) > 0:
+        args += ["--min-valor", f"{float(min_valor):.2f}"]
 
-# Alertas de sanidade
-if ai and not OPENAI_API_KEY:
-    st.warning("IA marcada, mas OPENAI_API_KEY não está setada no ambiente (.env/variável).")
-if pdf and not CONVERTAPI_TOKEN:
-    st.warning("PDF marcado, mas CONVERTAPI_TOKEN não está setado no ambiente (.env/variável).")
+    # Ambiente com as chaves (sem exibir)
+    env = os.environ.copy()
+    if OPENAI_API_KEY:
+        env["OPENAI_API_KEY"] = OPENAI_API_KEY
+    if CONVERTAPI_TOKEN:
+        env["CONVERTAPI_TOKEN"] = CONVERTAPI_TOKEN
 
-run = st.button("Gerar relatório")
+    # Mostra um resumo (sem chaves)
+    with st.expander("Comando", expanded=False):
+        safe_cmd = " ".join([a if a != SCRIPT_PATH else "licitacoes_pdf.py" for a in args])
+        st.code(safe_cmd)
 
-if run:
-    with st.spinner("Executando..."):
-        # Diretório temporário para salvar saídas
-        workdir = tempfile.mkdtemp()
-        out_pdf = Path(workdir) / "licitacoes.pdf"
-        out_html = Path(workdir) / "licitacoes.html"
-        out_json = Path(workdir) / "licitacoes.json"
+    # Chama o script
+    with st.status("Rodando consulta e montando relatório...", expanded=True) as status:
+        try:
+            proc = subprocess.run(args, env=env, capture_output=True, text=True, cwd=HERE, timeout=600)
+        except Exception as e:
+            st.error(f"Falha ao executar o script: {e}")
+            st.stop()
 
-        # Ambiente do subprocesso (já inclui variáveis carregadas pelo dotenv)
-        env = os.environ.copy()
+        st.write("**STDOUT:**")
+        st.code(proc.stdout or "(vazio)")
+        st.write("**STDERR (logs):**")
+        st.code(proc.stderr or "(vazio)")
 
-        # Comando usando o MESMO Python do Streamlit, caminho do script absoluto
-        cmd = [
-            sys.executable,
-            str(SCRIPT),
-            "--modalidade", modalidade,
-            "--data-inicial", data_inicial,
-            "--data-final", data_final,
-            "--tamanho-pagina", str(tamanho_pagina),
-            "--filename", str(out_pdf.name),
-        ]
-        if palavra:
-            cmd += ["--palavra", palavra]
-        if uf:
-            cmd += ["--uf", uf]
-        if ai:
-            cmd += ["--ai", "1"]
-        if pdf:
-            cmd += ["--pdf", "1"]
+        if proc.returncode != 0:
+            st.error(f"Script terminou com código {proc.returncode}. Veja os logs acima.")
+            st.stop()
+        status.update(label="Relatório gerado.", state="complete")
 
-        proc = subprocess.run(
-            cmd, cwd=workdir, env=env,
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
+    # Saídas
+    html_path = os.path.join(HERE, "licitacoes.html")
+    json_path = os.path.join(HERE, "licitacoes.json")
+    pdf_path = os.path.join(HERE, filename)
 
-        st.subheader("Logs")
-        st.code(proc.stderr or "(sem logs)")
+    cols = st.columns(3)
+    if os.path.exists(html_path):
+        with open(html_path, "r", encoding="utf-8") as fh:
+            html_content = fh.read()
 
-        # Downloads
-        if out_html.exists():
-            st.download_button("Baixar HTML", data=out_html.read_bytes(), file_name=out_html.name, mime="text/html")
-        if pdf and out_pdf.exists():
-            st.download_button("Baixar PDF", data=out_pdf.read_bytes(), file_name=out_pdf.name, mime="application/pdf")
-        if out_json.exists():
-            st.download_button("Baixar JSON", data=out_json.read_bytes(), file_name=out_json.name, mime="application/json")
+        with cols[0]:
+            st.download_button("Baixar HTML", data=html_content, file_name="licitacoes.html", mime="text/html")
 
-        # Visualização: embed e nova aba
-        if out_html.exists():
-            html_bytes = out_html.read_bytes()
-            html_str = html_bytes.decode("utf-8", errors="ignore")
+        if show_inline:
+            st.subheader("Visualização do Relatório (HTML)")
+            st.components.v1.html(html_content, height=900, scrolling=True)
 
-            st.markdown("### Visualizar o relatório")
+    if os.path.exists(json_path):
+        with open(json_path, "r", encoding="utf-8") as fj:
+            json_content = fj.read()
+        with cols[1]:
+            st.download_button("Baixar JSON", data=json_content, file_name="licitacoes.json", mime="application/json")
 
-            # 1) Ver na mesma página (embed)
-            with st.expander("Ver aqui na página (embed)"):
-                components.v1.html(html_str, height=900, scrolling=True)
+    if gen_pdf and os.path.exists(pdf_path):
+        with open(pdf_path, "rb") as fp:
+            pdf_bytes = fp.read()
+        with cols[2]:
+            st.download_button("Baixar PDF", data=pdf_bytes, file_name=filename, mime="application/pdf")
 
-            # 2) Abrir em nova aba via Data URI
-            data_uri = "data:text/html;base64," + base64.b64encode(html_bytes).decode("utf-8")
-            st.markdown(
-                f'<a href="{data_uri}" target="_blank" rel="noopener">Abrir relatório em nova aba</a>',
-                unsafe_allow_html=True,
-            )
+# Rodapé discreto
+st.caption("PNCP • Geração de Relatório • Streamlit")
