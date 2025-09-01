@@ -79,7 +79,7 @@ with st.sidebar:
 
     # Demais opções
     tamanho_pagina = st.slider("Tamanho da página (resultados PNCP)", min_value=10, max_value=200, value=50, step=10)
-    use_ai = st.checkbox("Analise por IA)", value=True)
+    use_ai = st.checkbox("Analise por IA", value=True)
     gen_pdf = st.checkbox("Gerar PDF", value=False)
     show_inline = st.checkbox("Exibir HTML dentro do app", value=True)
     filename = st.text_input("Nome do PDF (quando marcado)", value="licitacoes.pdf")
