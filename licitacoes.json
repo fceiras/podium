@@ -1,227 +1,17 @@
 {
   "filtros": {
-    "palavra": "software",
-    "uf": "PI",
+    "palavra": "",
+    "uf": "SP",
     "orgao": "",
     "minValor": 0.0,
     "codModalidade": 6,
-    "tamanhoPagina": 10
+    "tamanhoPagina": 20
   },
-  "total": 10,
+  "total": 20,
   "resultados": [
     {
-      "numeroControlePNCP": "01612564000148-1-000038/2025",
-      "numeroCompra": "018",
-      "anoCompra": 2025,
-      "modalidadeId": 6,
-      "modalidadeNome": "Pregão - Eletrônico",
-      "modoDisputaId": 1,
-      "modoDisputaNome": "Aberto",
-      "situacaoCompraId": 1,
-      "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "registro de preços para futura e eventual contratação de empresa especializada no fornecimento de livros, em atendimento às demandas da Secretaria Municipal de Educação do Município de Campo Alegre do Fidalgo-PI",
-      "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-09T18:01:00",
-      "dataEncerramentoProposta": "2025-07-25T07:01:00",
-      "dataPublicacaoPncp": "2025-07-13T10:22:31",
-      "orgao": {
-        "cnpj": "01612564000148",
-        "razaoSocial": "MUNICIPIO DE CAMPO ALEGRE DO FIDALGO"
-      },
-      "unidade": {
-        "codigo": "583",
-        "nome": "",
-        "uf": ""
-      },
-      "linkSistemaOrigem": null,
-      "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
-      },
-      "processo": "",
-      "tipoJulgamento": "Menor Preço (quando aplicável)",
-      "sistema": "PNCP / Compras públicas",
-      "leiAplicavel": "Lei 14.133/2021",
-      "inicioDisputa": ""
-    },
-    {
-      "numeroControlePNCP": "06554406000100-1-000095/2025",
-      "numeroCompra": "059",
-      "anoCompra": 2025,
-      "modalidadeId": 6,
-      "modalidadeNome": "Pregão - Eletrônico",
-      "modoDisputaId": 1,
-      "modoDisputaNome": "Aberto",
-      "situacaoCompraId": 1,
-      "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "[Portal de Compras Públicas] - Contratação de empresa para a prestação de serviços de manutenção de computadores e impressoras para atender as necessidades da Prefeitura Municipal de Barras-PI.",
-      "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-14T09:00:00",
-      "dataEncerramentoProposta": "2025-07-25T09:00:00",
-      "dataPublicacaoPncp": "2025-07-13T15:41:59",
-      "orgao": {
-        "cnpj": "06554406000100",
-        "razaoSocial": "MUNICIPIO DE BARRAS"
-      },
-      "unidade": {
-        "codigo": "01",
-        "nome": "",
-        "uf": ""
-      },
-      "linkSistemaOrigem": "https://portaldecompraspublicas.com.br/processos/PI/Prefeitura-Municipal-de-Barras-2226/PE-059-2025-2025-404820",
-      "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
-      },
-      "processo": "",
-      "tipoJulgamento": "Menor Preço (quando aplicável)",
-      "sistema": "PNCP / Compras públicas",
-      "leiAplicavel": "Lei 14.133/2021",
-      "inicioDisputa": ""
-    },
-    {
-      "numeroControlePNCP": "06554331000150-1-000018/2025",
-      "numeroCompra": "003/2025-3Relan.",
-      "anoCompra": 2025,
-      "modalidadeId": 6,
-      "modalidadeNome": "Pregão - Eletrônico",
-      "modoDisputaId": 1,
-      "modoDisputaNome": "Aberto",
-      "situacaoCompraId": 1,
-      "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "Aquisição de gêneros alimentícios perecíveis e não  perecíveis, destinados a atender aos órgãos da  Administração Pública Municipal de São João da  Serra/PI ",
-      "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-14T08:00:00",
-      "dataEncerramentoProposta": "2025-07-24T09:00:00",
-      "dataPublicacaoPncp": "2025-07-13T17:35:46",
-      "orgao": {
-        "cnpj": "06554331000150",
-        "razaoSocial": "MUNICIPIO DE SAO JOAO DA SERRA"
-      },
-      "unidade": {
-        "codigo": "43545",
-        "nome": "",
-        "uf": ""
-      },
-      "linkSistemaOrigem": "",
-      "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
-      },
-      "processo": "",
-      "tipoJulgamento": "Menor Preço (quando aplicável)",
-      "sistema": "PNCP / Compras públicas",
-      "leiAplicavel": "Lei 14.133/2021",
-      "inicioDisputa": ""
-    },
-    {
-      "numeroControlePNCP": "06554364000108-1-000038/2025",
-      "numeroCompra": "PE043/2025",
-      "anoCompra": 2025,
-      "modalidadeId": 6,
-      "modalidadeNome": "Pregão - Eletrônico",
-      "modoDisputaId": 1,
-      "modoDisputaNome": "Aberto",
-      "situacaoCompraId": 1,
-      "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "2.1.\tRegistro de preços para contratação de empresa especializada na locação, montagem, desmontagem e manutenção de estrutura de eventos, incluindo palco, sistema de som, iluminação profissional, grids, tendas, estandes, gerador, banheiros e demais estruturas para atender as festividades e eventos no município de Cristino Castro – PI",
-      "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-14T08:00:00",
-      "dataEncerramentoProposta": "2025-07-25T08:00:00",
-      "dataPublicacaoPncp": "2025-07-13T21:25:55",
-      "orgao": {
-        "cnpj": "06554364000108",
-        "razaoSocial": "MUNICIPIO DE CRISTINO CASTRO"
-      },
-      "unidade": {
-        "codigo": "2244",
-        "nome": "",
-        "uf": ""
-      },
-      "linkSistemaOrigem": "",
-      "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
-      },
-      "processo": "",
-      "tipoJulgamento": "Menor Preço (quando aplicável)",
-      "sistema": "PNCP / Compras públicas",
-      "leiAplicavel": "Lei 14.133/2021",
-      "inicioDisputa": ""
-    },
-    {
-      "numeroControlePNCP": "01612565000192-1-000014/2025",
-      "numeroCompra": "013",
-      "anoCompra": 2025,
-      "modalidadeId": 6,
-      "modalidadeNome": "Pregão - Eletrônico",
-      "modoDisputaId": 1,
-      "modoDisputaNome": "Aberto",
-      "situacaoCompraId": 1,
-      "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "Aquisição de fardamentos e outros afins para atender as necessidades de todas as Secretarias do Município de Barra D'Alcântara -PI.",
-      "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-13T00:00:00",
-      "dataEncerramentoProposta": "2025-07-23T00:00:00",
-      "dataPublicacaoPncp": "2025-07-13T21:42:03",
-      "orgao": {
-        "cnpj": "01612565000192",
-        "razaoSocial": "MUNICIPIO DE BARRA D'ALCANTARA"
-      },
-      "unidade": {
-        "codigo": "1",
-        "nome": "",
-        "uf": ""
-      },
-      "linkSistemaOrigem": "http://www.licitacaobarradalcantara.com.br",
-      "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
-      },
-      "processo": "",
-      "tipoJulgamento": "Menor Preço (quando aplicável)",
-      "sistema": "PNCP / Compras públicas",
-      "leiAplicavel": "Lei 14.133/2021",
-      "inicioDisputa": ""
-    },
-    {
-      "numeroControlePNCP": "06553861000183-1-000032/2025",
-      "numeroCompra": "90027",
-      "anoCompra": 2025,
-      "modalidadeId": 6,
-      "modalidadeNome": "Pregão - Eletrônico",
-      "modoDisputaId": 1,
-      "modoDisputaNome": "Aberto",
-      "situacaoCompraId": 1,
-      "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "O objeto da presente licitação é Registro de preço para a contratação de empresa para fornecimento de GÁS DE COZINHA a fim de suprir as necessidades da Prefeitura e demais Secretarias, do Município de Piripiri",
-      "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-23T08:00:00",
-      "dataEncerramentoProposta": "2025-08-04T09:00:00",
-      "dataPublicacaoPncp": "2025-07-14T07:18:45",
-      "orgao": {
-        "cnpj": "06553861000183",
-        "razaoSocial": "MUNICIPIO DE PIRIPIRI"
-      },
-      "unidade": {
-        "codigo": "981167",
-        "nome": "",
-        "uf": ""
-      },
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=98116705900272025",
-      "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
-      },
-      "processo": "",
-      "tipoJulgamento": "Menor Preço (quando aplicável)",
-      "sistema": "PNCP / Compras públicas",
-      "leiAplicavel": "Lei 14.133/2021",
-      "inicioDisputa": ""
-    },
-    {
-      "numeroControlePNCP": "05522917000170-1-000053/2025",
-      "numeroCompra": "90029",
+      "numeroControlePNCP": "63106843000197-1-000141/2025",
+      "numeroCompra": "90014",
       "anoCompra": 2025,
       "modalidadeId": 6,
       "modalidadeNome": "Pregão - Eletrônico",
@@ -229,24 +19,24 @@
       "modoDisputaNome": "Aberto-Fechado",
       "situacaoCompraId": 1,
       "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "Contratação, pelo período 12 (doze) meses, contados a partir da data da publicação do contrato, podendo ser prorrogado por igual período, desde que comprovado o preço vantajoso, para futura e eventual contração de serviços de locação de sistema de tratamento de água por osmose reversa e máquinas de hemodiálise, a fim de atender às necessidades do HUT (HOSPITAL DE URGÊNCIA DE TERESINA).",
+      "objetoCompra": "Serviço de telefonia fixa, com outorga da ANATEL, para prestação de serviço de telefonia fixa comutada (STFC), abrangendo chamadas fixo-fixo e fixo-móvel, nas modalidades local e longa distância nacional (LDN), tanto intra-regional quanto inter-regional, a ser executado de forma contínua, para as 27 delegacias regionais do Cremesp.",
       "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-14T08:00:00",
-      "dataEncerramentoProposta": "2025-07-29T09:00:00",
-      "dataPublicacaoPncp": "2025-07-14T07:23:18",
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-16T11:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:00:21",
       "orgao": {
-        "cnpj": "05522917000170",
-        "razaoSocial": "FUNDACAO MUNICIPAL DE SAUDE"
+        "cnpj": "63106843000197",
+        "razaoSocial": "CONSELHO REGIONAL DE MEDICINA DO ESTADO DE SAO PAULO"
       },
       "unidade": {
-        "codigo": "927337",
+        "codigo": "926310",
         "nome": "",
         "uf": ""
       },
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92733705900292025",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92631005900142025",
       "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
+        "score": 80,
+        "recomendacao": "prosseguir"
       },
       "processo": "",
       "tipoJulgamento": "Menor Preço (quando aplicável)",
@@ -255,33 +45,523 @@
       "inicioDisputa": ""
     },
     {
-      "numeroControlePNCP": "08839135000157-1-000010/2025",
+      "numeroControlePNCP": "96291141000180-1-002745/2025",
+      "numeroCompra": "90005",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Aquisição de Materiais de Higiene Pessoal e Coletiva destinados ao atendimento das necessidades básicas dos custodiados do Estabelecimento Penal de Registro.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-14T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:01:11",
+      "orgao": {
+        "cnpj": "96291141000180",
+        "razaoSocial": "SAO PAULO SECRETARIA DA ADMINISTRACAO PENITENCIARIA"
+      },
+      "unidade": {
+        "codigo": "380280",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=38028005900052025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "96291141000180-1-002746/2025",
+      "numeroCompra": "90004",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Aquisição de laminados de espuma",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-14T08:30:00",
+      "dataPublicacaoPncp": "2025-07-01T07:02:29",
+      "orgao": {
+        "cnpj": "96291141000180",
+        "razaoSocial": "SAO PAULO SECRETARIA DA ADMINISTRACAO PENITENCIARIA"
+      },
+      "unidade": {
+        "codigo": "380173",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=38017305900042025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "37115433000100-1-000018/2025",
+      "numeroCompra": "90006",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Contratação de empresa especializada para prestação de serviço móvel pessoal (SMP), com tecnologia digital 5G ou superior, para comunicação de voz ilimitada e dados, nas modalidades local e longa distância nacional em viagem (roaming), pós-pago, com cessão de aparelhos Smartphones em regime de comodato e sistema gerenciador de dispositivos (MDM - Mobile Device Management) para atender as necessidades do CRP06/SP por 30 (trinta) meses.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-17T10:30:00",
+      "dataPublicacaoPncp": "2025-07-01T07:03:05",
+      "orgao": {
+        "cnpj": "37115433000100",
+        "razaoSocial": "CONSELHO REGIONAL DE PSICOLOGIA DA 6 REGIAO - CRP-06"
+      },
+      "unidade": {
+        "codigo": "389255",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=38925505900062025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "71832679000123-1-000154/2025",
+      "numeroCompra": "90077",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Fornecimento de peças para empilhadeira Hangcha.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-15T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:03:54",
+      "orgao": {
+        "cnpj": "71832679000123",
+        "razaoSocial": "(UO) ESP-CIA.PTA DE TRENS METROPS-CPTM"
+      },
+      "unidade": {
+        "codigo": "373201",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=37320105900772025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "46523171000104-1-000135/2025",
+      "numeroCompra": "90051",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Registro de Preços para Eventual e Futuro Fornecimento de Hortifrutigranjeiros Minimamente Processados",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T10:00:00",
+      "dataEncerramentoProposta": "2025-07-21T10:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:04:13",
+      "orgao": {
+        "cnpj": "46523171000104",
+        "razaoSocial": "MUNICIPIO DE OSASCO"
+      },
+      "unidade": {
+        "codigo": "450573",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=45057305900512025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "46374500000194-1-005756/2025",
+      "numeroCompra": "90054",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Contratação de Empresa Especializada em serviços de confecção de Órtese sob medida decorrente de determinação judicial. ",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-15T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:04:54",
+      "orgao": {
+        "cnpj": "46374500000194",
+        "razaoSocial": "SECRETARIA DE ESTADO DA SAUDE"
+      },
+      "unidade": {
+        "codigo": "090132",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=09013205900542025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "44959021000104-1-000155/2025",
+      "numeroCompra": "90016",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 3,
+      "situacaoCompraNome": "Anulada",
+      "objetoCompra": "Registro de preços de medicamentos Bloco F_25 COMPRIMIDOS do Componente Básico da Assistência Farmacêutica para atendimento da Assistência Farmacêutica da Secretaria de Saúde do município do Guarujá.    ",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-03T08:00:00",
+      "dataEncerramentoProposta": "2025-07-16T09:30:00",
+      "dataPublicacaoPncp": "2025-07-01T07:05:25",
+      "orgao": {
+        "cnpj": "44959021000104",
+        "razaoSocial": "MUNICIPIO DE GUARUJA"
+      },
+      "unidade": {
+        "codigo": "986475",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=98647505900162025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "63025530000104-1-002534/2025",
+      "numeroCompra": "99977",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Contratação de empresa especializada para prestação de serviço de manutenção de esquadrias de 70 portas de correr.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-16T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:05:31",
+      "orgao": {
+        "cnpj": "63025530000104",
+        "razaoSocial": "UNIVERSIDADE DE SAO PAULO"
+      },
+      "unidade": {
+        "codigo": "102139",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=10213905999772025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "44959021000104-1-000156/2025",
+      "numeroCompra": "90017",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 2,
+      "situacaoCompraNome": "Revogada",
+      "objetoCompra": "Contratação de empresa especializada na prestação de forma contínua de serviços de limpeza, higienização, asseio diário, e conservação dos ambientes municipais de ensino, com fornecimento de mão-de-obra materiais e equipamentos, responsabilidade da Secretaria de Educação do Município de Guarujá.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-28T08:00:00",
+      "dataEncerramentoProposta": "2025-08-11T09:30:00",
+      "dataPublicacaoPncp": "2025-07-01T07:07:03",
+      "orgao": {
+        "cnpj": "44959021000104",
+        "razaoSocial": "MUNICIPIO DE GUARUJA"
+      },
+      "unidade": {
+        "codigo": "986475",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=98647505900172025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "46374500000194-1-005757/2025",
+      "numeroCompra": "90074",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Aquisição de Materiais de Uso Técnico Hospitalar (ADAPTADOR INTERMEDIARIO DUAS VIAS)",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-11T11:30:00",
+      "dataPublicacaoPncp": "2025-07-01T07:07:39",
+      "orgao": {
+        "cnpj": "46374500000194",
+        "razaoSocial": "SECRETARIA DE ESTADO DA SAUDE"
+      },
+      "unidade": {
+        "codigo": "090167",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=09016705900742025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "96291141000180-1-002747/2025",
+      "numeroCompra": "90001",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Aquisição de Materiais de Limpeza Coletiva e Higiene Individual.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-11T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:08:46",
+      "orgao": {
+        "cnpj": "96291141000180",
+        "razaoSocial": "SAO PAULO SECRETARIA DA ADMINISTRACAO PENITENCIARIA"
+      },
+      "unidade": {
+        "codigo": "380107",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=38010705900012025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "96291141000180-1-002748/2025",
       "numeroCompra": "90008",
       "anoCompra": 2025,
       "modalidadeId": 6,
       "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Higiene, Limpeza e Utensílios",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-14T08:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:09:16",
+      "orgao": {
+        "cnpj": "96291141000180",
+        "razaoSocial": "SAO PAULO SECRETARIA DA ADMINISTRACAO PENITENCIARIA"
+      },
+      "unidade": {
+        "codigo": "380243",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=38024305900082025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "62655246000159-1-000053/2025",
+      "numeroCompra": "90026",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Prestação de serviços de locação de espaço com estrutura física (salas em formato de auditório) em hotel de categoria a partir de 4 (quatro) estrelas, conforme Portaria Ministério do Turismo nº 100/2011, link de internet e alimentação para atender o evento “Combate à Violência Contra a Mulher”, a ser realizado entre os meses de outubro e novembro de 2025, das 08:00 às 17:30, pelo CRECISP.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:30:00",
+      "dataEncerramentoProposta": "2025-07-15T10:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:09:41",
+      "orgao": {
+        "cnpj": "62655246000159",
+        "razaoSocial": "CONSELHO REGIONAL DE CORRETORES DE IMOVEIS DA 2 REGIAO"
+      },
+      "unidade": {
+        "codigo": "389297",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=38929705900262025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "43052497000102-1-000259/2025",
+      "numeroCompra": "90019",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Contratação de serviços de copeiragem. ",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-17T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:09:47",
+      "orgao": {
+        "cnpj": "43052497000102",
+        "razaoSocial": "DEPARTAMENTO DE ESTRADAS DE RODAGEM"
+      },
+      "unidade": {
+        "codigo": "262214",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=26221405900192025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "46137410000180-1-000467/2025",
+      "numeroCompra": "90229",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
       "modoDisputaId": 3,
       "modoDisputaNome": "Aberto-Fechado",
       "situacaoCompraId": 1,
       "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "Registro de Preços para futura contratação de uma empresa especializada em desinsetização, desratização, descupinização, desalojamento/repelência de pombos e controle de larvas para controle de vetores de praga (limpeza de fossas, caixas d'água e cisternas), para garantir o bom funcionamento das atividades institucionais da ETIPI-PI e de sua subsidiária/coparticipante PIAUÍ-LINK.",
+      "objetoCompra": "Aquisição parcelada de almondega bovina congelada com IQF, com entrega ponto a ponto, devidamente especificado no anexo I do edital, através do sistema de registro de preços",
       "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-14T08:00:00",
-      "dataEncerramentoProposta": "2025-07-29T09:00:00",
-      "dataPublicacaoPncp": "2025-07-14T07:28:58",
+      "dataAberturaProposta": "2025-07-02T08:00:00",
+      "dataEncerramentoProposta": "2025-07-15T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:10:39",
       "orgao": {
-        "cnpj": "08839135000157",
-        "razaoSocial": "AGENCIA DE TECNOLOGIA DA INFORMACAO DO ESTADO DO PIAUI - ATI"
+        "cnpj": "46137410000180",
+        "razaoSocial": "MUNICIPIO DE BAURU"
       },
       "unidade": {
-        "codigo": "929895",
+        "codigo": "986219",
         "nome": "",
         "uf": ""
       },
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92989505900082025",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=98621905902292025",
       "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
+        "score": 80,
+        "recomendacao": "prosseguir"
       },
       "processo": "",
       "tipoJulgamento": "Menor Preço (quando aplicável)",
@@ -290,33 +570,33 @@
       "inicioDisputa": ""
     },
     {
-      "numeroControlePNCP": "05805924000189-1-000042/2025",
-      "numeroCompra": "90020",
+      "numeroControlePNCP": "13864377000130-1-001064/2025",
+      "numeroCompra": "90671",
       "anoCompra": 2025,
       "modalidadeId": 6,
       "modalidadeNome": "Pregão - Eletrônico",
-      "modoDisputaId": 1,
-      "modoDisputaNome": "Aberto",
+      "modoDisputaId": 3,
+      "modoDisputaNome": "Aberto-Fechado",
       "situacaoCompraId": 1,
       "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "Registro de preços, pelo prazo de 12 (doze) meses, para a eventual aquisição de material permanente (eletroeletrônicos), conforme condições e exigências estabelecidas neste Edital e seus anexos.",
+      "objetoCompra": "REGISTRO de PREÇOS PARA O FORNECIMENTO DE FIOS CIRURGICOS SINTÉTICOS ABSORVÍVEL; INABSORVÍVEL V",
       "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-14T08:00:00",
-      "dataEncerramentoProposta": "2025-07-24T09:00:00",
-      "dataPublicacaoPncp": "2025-07-14T07:33:12",
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-22T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:10:45",
       "orgao": {
-        "cnpj": "05805924000189",
-        "razaoSocial": "PIAUI PROCURADORIA GERAL DA JUSTICA"
+        "cnpj": "13864377000130",
+        "razaoSocial": "FUNDO MUNICIPAL DE SAUDE - FMS"
       },
       "unidade": {
-        "codigo": "926092",
+        "codigo": "925003",
         "nome": "",
         "uf": ""
       },
-      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92609205900202025",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92500305906712025",
       "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
+        "score": 80,
+        "recomendacao": "prosseguir"
       },
       "processo": "",
       "tipoJulgamento": "Menor Preço (quando aplicável)",
@@ -325,8 +605,8 @@
       "inicioDisputa": ""
     },
     {
-      "numeroControlePNCP": "06553697000104-1-000037/2025",
-      "numeroCompra": "031/2025",
+      "numeroControlePNCP": "96291141000180-1-002749/2025",
+      "numeroCompra": "90004",
       "anoCompra": 2025,
       "modalidadeId": 6,
       "modalidadeNome": "Pregão - Eletrônico",
@@ -334,24 +614,94 @@
       "modoDisputaNome": "Aberto",
       "situacaoCompraId": 1,
       "situacaoCompraNome": "Divulgada no PNCP",
-      "objetoCompra": "locação de um veículo tipo passeio para atender às necessidades da Secretaria Municipal de Educação de Conceição do Canindé-PI”. ",
+      "objetoCompra": "Aquisição de Material de Consumo para atender as necessidades desta Unidade Prisional quanto à aquisição de material para manutenção das viaturas e materiais a serem utilizados na cozinha.",
       "valorEstimado": null,
-      "dataAberturaProposta": "2025-07-14T08:30:00",
-      "dataEncerramentoProposta": "2025-07-25T08:30:00",
-      "dataPublicacaoPncp": "2025-07-14T08:13:26",
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-16T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:10:51",
       "orgao": {
-        "cnpj": "06553697000104",
-        "razaoSocial": "MUNICIPIO DE CONCEICAO DO CANINDE"
+        "cnpj": "96291141000180",
+        "razaoSocial": "SAO PAULO SECRETARIA DA ADMINISTRACAO PENITENCIARIA"
       },
       "unidade": {
-        "codigo": "2210",
+        "codigo": "380176",
         "nome": "",
         "uf": ""
       },
-      "linkSistemaOrigem": "",
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=38017605900042025",
       "analise": {
-        "score": 45,
-        "recomendacao": "avaliar"
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "46377800000127-1-002957/2025",
+      "numeroCompra": "90054",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Serviço de Renovação da Licença de Uso do Software TeamViewer",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-15T10:30:00",
+      "dataPublicacaoPncp": "2025-07-01T07:11:40",
+      "orgao": {
+        "cnpj": "46377800000127",
+        "razaoSocial": "SAO PAULO SECRETARIA DA SEGURANCA PUBLICA"
+      },
+      "unidade": {
+        "codigo": "180216",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=18021605900542025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "13864377000130-1-001065/2025",
+      "numeroCompra": "90675",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 3,
+      "modoDisputaNome": "Aberto-Fechado",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "REGISTRO de PREÇOS PARA O FORNECIMENTO DE FIO SERRA DE GIGLI 60 CM ",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-01T08:00:00",
+      "dataEncerramentoProposta": "2025-07-28T09:00:00",
+      "dataPublicacaoPncp": "2025-07-01T07:12:05",
+      "orgao": {
+        "cnpj": "13864377000130",
+        "razaoSocial": "FUNDO MUNICIPAL DE SAUDE - FMS"
+      },
+      "unidade": {
+        "codigo": "925003",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92500305906752025",
+      "analise": {
+        "score": 80,
+        "recomendacao": "prosseguir"
       },
       "processo": "",
       "tipoJulgamento": "Menor Preço (quando aplicável)",
@@ -361,6 +711,319 @@
     }
   ],
   "ai": {
-    "raw": "```json\n{\n  \"sumario\": {\n    \"totalLicitações\": 10,\n    \"modalidade\": \"Pregão - Eletrônico\",\n    \"situacao\": \"Divulgada no PNCP\",\n    \"ano\": 2025\n  },\n  \"destaques\": [\n    {\n      \"numeroCompra\": \"018\",\n      \"orgao\": \"MUNICIPIO DE CAMPO ALEGRE DO FIDALGO\",\n      \"objetoCompra\": \"Registro de preços para futura e eventual contratação de empresa especializada no fornecimento de livros.\"\n    },\n    {\n      \"numeroCompra\": \"059\",\n      \"orgao\": \"MUNICIPIO DE BARRAS\",\n      \"objetoCompra\": \"Contratação de empresa para a prestação de serviços de manutenção de computadores e impressoras.\"\n    },\n    {\n      \"numeroCompra\": \"003/2025-3Relan.\",\n      \"orgao\": \"MUNICIPIO DE SAO JOAO DA SERRA\",\n      \"objetoCompra\": \"Aquisição de gêneros alimentícios perecíveis e não perecíveis.\"\n    },\n    {\n      \"numeroCompra\": \"PE043/2025\",\n      \"orgao\": \"MUNICIPIO DE CRISTINO CASTRO\",\n      \"objetoCompra\": \"Registro de preços para locação e manutenção de estrutura de eventos.\"\n    },\n    {\n      \"numeroCompra\": \"90027\",\n      \"orgao\": \"MUNICIPIO DE PIRIPIRI\",\n      \"objetoCompra\": \"Registro de preço para fornecimento de GÁS DE COZINHA.\"\n    }\n  ],\n  \"recomendacaoGeral\": \"Avaliar as propostas com atenção, considerando a relevância dos serviços e produtos para as respectivas secretarias municipais.\"\n}\n```"
+    "resumo": {
+      "executivo": "Análise de licitações em andamento no estado de São Paulo para o ano de 2025, com foco em serviços e aquisições diversas, todas recomendadas para prosseguir."
+    },
+    "metricas": {
+      "total": 20,
+      "prosseguir": 20,
+      "avaliar": 0,
+      "descartar": 0
+    },
+    "destaques": [],
+    "por_item": {
+      "63106843000197-1-000141/2025": {
+        "titulo": "Serviço de telefonia fixa",
+        "pontos_positivos": [
+          "Abrangência para 27 delegacias regionais",
+          "Serviço contínuo"
+        ],
+        "riscos": [
+          "Dependência de prestadora de serviço"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "96291141000180-1-002745/2025": {
+        "titulo": "Materiais de Higiene Pessoal e Coletiva",
+        "pontos_positivos": [
+          "Atende necessidades básicas dos custodiados"
+        ],
+        "riscos": [
+          "Possível variação na demanda"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "96291141000180-1-002746/2025": {
+        "titulo": "Aquisição de laminados de espuma",
+        "pontos_positivos": [
+          "Produto essencial para uso interno"
+        ],
+        "riscos": [
+          "Qualidade do material"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "37115433000100-1-000018/2025": {
+        "titulo": "Serviço móvel pessoal (SMP)",
+        "pontos_positivos": [
+          "Tecnologia 5G",
+          "Comunicação ilimitada"
+        ],
+        "riscos": [
+          "Custo elevado de manutenção"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "71832679000123-1-000154/2025": {
+        "titulo": "Fornecimento de peças para empilhadeira",
+        "pontos_positivos": [
+          "Suporte a operações logísticas"
+        ],
+        "riscos": [
+          "Dependência de fornecedor específico"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "46523171000104-1-000135/2025": {
+        "titulo": "Registro de Preços para Hortifrutigranjeiros",
+        "pontos_positivos": [
+          "Flexibilidade de fornecimento"
+        ],
+        "riscos": [
+          "Variação de preços sazonais"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Alimentos",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "46374500000194-1-005756/2025": {
+        "titulo": "Confecção de Órtese sob medida",
+        "pontos_positivos": [
+          "Atende demanda judicial"
+        ],
+        "riscos": [
+          "Complexidade na confecção"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "44959021000104-1-000155/2025": {
+        "titulo": "Registro de preços de medicamentos",
+        "pontos_positivos": [
+          "Atendimento à saúde pública"
+        ],
+        "riscos": [
+          "Regulação de preços"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Medicamentos",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "63025530000104-1-002534/2025": {
+        "titulo": "Serviço de manutenção de esquadrias",
+        "pontos_positivos": [
+          "Manutenção de infraestrutura"
+        ],
+        "riscos": [
+          "Possíveis atrasos na execução"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "44959021000104-1-000156/2025": {
+        "titulo": "Serviços de limpeza e conservação",
+        "pontos_positivos": [
+          "Importante para a manutenção de ambientes"
+        ],
+        "riscos": [
+          "Qualidade do serviço prestado"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "46374500000194-1-005757/2025": {
+        "titulo": "Materiais de Uso Técnico Hospitalar",
+        "pontos_positivos": [
+          "Essencial para atendimento hospitalar"
+        ],
+        "riscos": [
+          "Fornecimento contínuo"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "96291141000180-1-002747/2025": {
+        "titulo": "Materiais de Limpeza Coletiva e Higiene Individual",
+        "pontos_positivos": [
+          "Importante para a saúde pública"
+        ],
+        "riscos": [
+          "Qualidade dos produtos"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "96291141000180-1-002748/2025": {
+        "titulo": "Higiene, Limpeza e Utensílios",
+        "pontos_positivos": [
+          "Necessário para manutenção de ambientes"
+        ],
+        "riscos": [
+          "Variação de preços"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "62655246000159-1-000053/2025": {
+        "titulo": "Locação de espaço para evento",
+        "pontos_positivos": [
+          "Importante para eventos sociais"
+        ],
+        "riscos": [
+          "Dependência de local"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "43052497000102-1-000259/2025": {
+        "titulo": "Serviços de copeiragem",
+        "pontos_positivos": [
+          "Suporte a eventos e reuniões"
+        ],
+        "riscos": [
+          "Qualidade do serviço"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "46137410000180-1-000467/2025": {
+        "titulo": "Aquisição de almondega bovina congelada",
+        "pontos_positivos": [
+          "Atende demanda alimentar"
+        ],
+        "riscos": [
+          "Qualidade do produto"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Alimentos",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "13864377000130-1-001064/2025": {
+        "titulo": "Fornecimento de fios cirúrgicos",
+        "pontos_positivos": [
+          "Essencial para procedimentos cirúrgicos"
+        ],
+        "riscos": [
+          "Fornecimento contínuo"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "96291141000180-1-002749/2025": {
+        "titulo": "Material de Consumo para Unidade Prisional",
+        "pontos_positivos": [
+          "Atende necessidades operacionais"
+        ],
+        "riscos": [
+          "Qualidade dos materiais"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "46377800000127-1-002957/2025": {
+        "titulo": "Renovação da Licença de Uso do Software",
+        "pontos_positivos": [
+          "Importante para a continuidade dos serviços"
+        ],
+        "riscos": [
+          "Dependência de software"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Serviços",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      },
+      "13864377000130-1-001065/2025": {
+        "titulo": "Fornecimento de fio serra de Gigli",
+        "pontos_positivos": [
+          "Importante para procedimentos cirúrgicos"
+        ],
+        "riscos": [
+          "Fornecimento contínuo"
+        ],
+        "valor_estimado_texto": "—",
+        "recomendacao": "prosseguir",
+        "score_ai": 80,
+        "categoria": "Materiais",
+        "tipo_precificacao": "—",
+        "acoes_recomendadas": []
+      }
+    }
   }
 }

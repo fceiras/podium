@@ -1,31 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Gerador de PDF de licitações (equivalente ao fluxo n8n) — Fabricio
+Gerador de relatório de licitações (PNCP) com IA opcional.
 
 Funcionalidades:
-- Busca PNCP por período/modalidade/UF
-- Normaliza + pontua (score local + recomendação)
-- Descobre PDF por texto/JS e confirma por Content-Type (HEAD/GET)
-- Extrai texto dos PDFs via ConvertAPI (pdf->txt) e tenta puxar objeto/valor/prazos via regex
-- Fallback: extrai valor do HTML da página quando PDF não está acessível
-- IA (gpt-4o-mini): resumo executivo + análise por item + destaque IA no topo
-- HTML final (sempre). Opcionalmente PDF via ConvertAPI (html->pdf)
+- Consulta PNCP por janela de datas, UF e modalidade
+- Enriquecimento: tenta achar Valor Estimado em:
+  (1) HTML visível, (2) JSON inline, (3) endpoints JSON referenciados na página,
+  (4) PDF do edital/anexo (ConvertAPI + fallback local pdfminer.six)
+- Resumo executivo (IA) + análise por item (IA) com:
+  Categoria, Tipo/Modelo de precificação e Ações recomendadas
+- Risco de Prazo (local, sem IA)
+- Gera HTML (sempre) e PDF (opcional via ConvertAPI)
 
-Dependências (mínimo):
-  pip install requests beautifulsoup4
-
-Variáveis de ambiente (opcional):
-  OPENAI_API_KEY    (para --ai 1)
-  CONVERTAPI_TOKEN  (para --pdf 1 e/ou --extract-pdf 1)
+Autor: Fabricio + ajustes do assistente
 """
 
+from __future__ import annotations
+
 import argparse
+import io
 import json
 import os
 import re
 import sys
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urljoin
@@ -33,7 +32,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
-# -------------------- Constantes / util --------------------
+# ======================= Constantes e utilidades =======================
 
 PNCP_URL = "https://pncp.gov.br/api/consulta/v1/contratacoes/publicacao"
 
@@ -55,6 +54,30 @@ MODALIDADE_MAP = {
 }
 
 PDF_CANDIDATE_TEXT = re.compile(r"(edital|anexo|itens|item|termo|refer[eê]ncia|arquivo|download)", re.I)
+TRACKER_RX = re.compile(r"(googletagmanager|google-analytics|doubleclick|gstatic)", re.I)
+
+HTML_PATTERNS_VALOR = [
+    re.compile(r"valor\s+(?:estimado|global|total)\s*[:\-]?\s*R?\$?\s*([\d\.\,]+)", re.I),
+    re.compile(r"R\$\s*([\d\.\,]{3,})"),
+]
+
+PDF_PATTERNS_VALOR = [
+    re.compile(r"valor\s+estimado\s*[:\-]\s*R?\$?\s*([\d\.\,]+)", re.I),
+    re.compile(r"valor\s+global\s*[:\-]\s*R?\$?\s*([\d\.\,]+)", re.I),
+    re.compile(r"preço\s+estimado\s*[:\-]\s*R?\$?\s*([\d\.\,]+)", re.I),
+]
+PDF_PATTERNS_OBJETO = [
+    re.compile(r"objeto\s*[:\-]\s*(.+?)(?:\n{2,}|item\s*1|\n\d+\.)", re.I | re.S),
+    re.compile(r"do objeto\s*[:\-]\s*(.+?)(?:\n{2,}|item\s*1|\n\d+\.)", re.I | re.S),
+]
+PDF_PATTERNS_ABERTURA = [
+    re.compile(r"abertura(?:\s+das\s+propostas)?\s*[:\-]\s*(.+)", re.I),
+    re.compile(r"sess[aã]o\s+de\s+abertura\s*[:\-]\s*(.+)", re.I),
+]
+PDF_PATTERNS_ENCERRAMENTO = [
+    re.compile(r"encerramento(?:\s+da\s+entrega|\s+recep[cç][aã]o)?\s*[:\-]\s*(.+)", re.I),
+]
+
 
 def nlower(s: Optional[str]) -> str:
     if s is None:
@@ -64,6 +87,7 @@ def nlower(s: Optional[str]) -> str:
     s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
     return s.lower()
 
+
 def clamp_tamanho_pagina(v: Any) -> int:
     try:
         n = int(v)
@@ -71,6 +95,7 @@ def clamp_tamanho_pagina(v: Any) -> int:
         return 50
     n = max(10, min(200, n))
     return n
+
 
 def parse_flag(v: Any) -> int:
     s = str(v).strip().lower()
@@ -83,6 +108,7 @@ def parse_flag(v: Any) -> int:
         pass
     return 0
 
+
 def normalize_url(raw: Optional[str]) -> str:
     if not raw:
         return ""
@@ -93,11 +119,13 @@ def normalize_url(raw: Optional[str]) -> str:
         url = "https://" + url
     return url
 
+
 def abs_url(href: str, base: str) -> Optional[str]:
     try:
         return urljoin(base, href)
     except Exception:
         return None
+
 
 def money_br_to_number(s: Optional[str]) -> Optional[float]:
     if not s:
@@ -108,6 +136,7 @@ def money_br_to_number(s: Optional[str]) -> Optional[float]:
     except Exception:
         return None
 
+
 def fmt_money_br(v: Optional[float]) -> str:
     if v is None:
         return "—"
@@ -115,6 +144,7 @@ def fmt_money_br(v: Optional[float]) -> str:
         return f"R$ {v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
     except Exception:
         return "—"
+
 
 def fmt_date_br(iso_like: Optional[str]) -> str:
     if not iso_like:
@@ -125,35 +155,11 @@ def fmt_date_br(iso_like: Optional[str]) -> str:
     except Exception:
         return "—"
 
+
 def esc_html(s: Any) -> str:
     s = "" if s is None else str(s)
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
-# -------------------- Padrões de extração --------------------
-
-PDF_PATTERNS_VALOR = [
-    re.compile(r"valor\s+estimado\s*[:\-]\s*R?\$?\s*([\d\.\,]+)", re.I),
-    re.compile(r"valor\s+global\s*[:\-]\s*R?\$?\s*([\d\.\,]+)", re.I),
-    re.compile(r"preço\s+estimado\s*[:\-]\s*R?\$?\s*([\d\.\,]+)", re.I),
-]
-
-PDF_PATTERNS_OBJETO = [
-    re.compile(r"objeto\s*[:\-]\s*(.+?)(?:\n{2,}|item\s*1|\n\d+\.)", re.I | re.S),
-    re.compile(r"do objeto\s*[:\-]\s*(.+?)(?:\n{2,}|item\s*1|\n\d+\.)", re.I | re.S),
-]
-
-PDF_PATTERNS_ABERTURA = [
-    re.compile(r"abertura(?:\s+das\s+propostas)?\s*[:\-]\s*(.+)", re.I),
-    re.compile(r"sess[aã]o\s+de\s+abertura\s*[:\-]\s*(.+)", re.I),
-]
-PDF_PATTERNS_ENCERRAMENTO = [
-    re.compile(r"encerramento(?:\s+da\s+entrega|\s+recep[cç][aã]o)?\s*[:\-]\s*(.+)", re.I),
-]
-
-HTML_PATTERNS_VALOR = [
-    re.compile(r"valor\s+(?:estimado|global|total)\s*[:\-]?\s*R?\$?\s*([\d\.\,]+)", re.I),
-    re.compile(r"R\$\s*([\d\.\,]{3,})"),
-]
 
 def pick_first(text: str, patterns: List[re.Pattern]) -> Optional[str]:
     if not text:
@@ -164,7 +170,8 @@ def pick_first(text: str, patterns: List[re.Pattern]) -> Optional[str]:
             return m.group(1).strip()
     return None
 
-# -------------------- Data classes --------------------
+
+# ======================= Data classes =======================
 
 @dataclass
 class Unidade:
@@ -172,10 +179,12 @@ class Unidade:
     nome: Optional[str] = None
     uf: Optional[str] = None
 
+
 @dataclass
 class Orgao:
     cnpj: Optional[str] = None
     razaoSocial: Optional[str] = None
+
 
 @dataclass
 class Resultado:
@@ -196,6 +205,8 @@ class Resultado:
     orgao: Orgao = field(default_factory=Orgao)
     unidade: Unidade = field(default_factory=Unidade)
     linkSistemaOrigem: Optional[str] = None
+
+    # Campos adicionais para o HTML
     analise: Dict[str, Any] = field(default_factory=dict)
     processo: Optional[str] = ""
     tipoJulgamento: Optional[str] = "Menor Preço (quando aplicável)"
@@ -203,7 +214,8 @@ class Resultado:
     leiAplicavel: Optional[str] = "Lei 14.133/2021"
     inicioDisputa: Optional[str] = ""
 
-# -------------------- Núcleo --------------------
+
+# ======================= Núcleo PNCP =======================
 
 def decide_score(obj: Resultado, filtros: Dict[str, Any]) -> Tuple[int, str, Optional[str]]:
     palavra = filtros.get("palavra") or ""
@@ -221,6 +233,8 @@ def decide_score(obj: Resultado, filtros: Dict[str, Any]) -> Tuple[int, str, Opt
     passaValor = True if not minValor else ((obj.valorEstimado or 0.0) >= minValor)
 
     score = (35 if passaPalavra else 0) + (20 if passaUf else 0) + (10 if passaOrgao else 0) + (35 if passaValor else 0)
+
+    # Exemplo de regra de negócio
     bloqueiaBahia = ((obj.unidade.uf or "").upper() == "BA") or ("bahia" in nlower(obj.orgao.razaoSocial or ""))
     if bloqueiaBahia:
         return score, "descartar", "Excluído: órgão/UF Bahia"
@@ -229,6 +243,7 @@ def decide_score(obj: Resultado, filtros: Dict[str, Any]) -> Tuple[int, str, Opt
     else:
         return score, "avaliar", None
 
+
 def resolve_modalidade_code(modalidade: Optional[str], cod: Optional[str]) -> int:
     if cod and str(cod).strip().isdigit():
         return int(str(cod).strip())
@@ -236,6 +251,7 @@ def resolve_modalidade_code(modalidade: Optional[str], cod: Optional[str]) -> in
     if m in MODALIDADE_MAP:
         return MODALIDADE_MAP[m]
     raise ValueError("codModalidade obrigatório (ex: 6=pregao eletronico) ou informe --modalidade 'pregao eletronico'")
+
 
 def fetch_pncp(params: Dict[str, Any]) -> Dict[str, Any]:
     q = {
@@ -253,6 +269,7 @@ def fetch_pncp(params: Dict[str, Any]) -> Dict[str, Any]:
     data = r.json()
     arr = (data.get("_response", {}).get("data", {}).get("data")) or data.get("data") or []
     return {"raw": data, "arr": arr}
+
 
 def normalize_results(arr: List[Dict[str, Any]], filtros: Dict[str, Any]) -> List[Resultado]:
     out: List[Resultado] = []
@@ -300,23 +317,30 @@ def normalize_results(arr: List[Dict[str, Any]], filtros: Dict[str, Any]) -> Lis
         out.append(res)
     return out
 
-# -------------------- Busca de PDF / extração --------------------
+
+# ======================= PDF / Página de origem =======================
 
 def find_pdf_links(page_url: str, html: str) -> Tuple[Optional[str], Optional[str]]:
     soup = BeautifulSoup(html, "html.parser")
-    hrefs = []
+    hrefs: List[str] = []
+
     for a in soup.find_all("a", href=True):
         href = a["href"].strip()
         text = (a.get_text() or "").strip()
         if href.lower().endswith(".pdf") or PDF_CANDIDATE_TEXT.search(text):
             hrefs.append(href)
-    # tenta data-href e window.open(...)
+
+    for tag in soup.find_all(["iframe", "embed", "object"]):
+        src = (tag.get("src") or tag.get("data") or "").strip()
+        if src:
+            hrefs.append(src)
+
     for tag in soup.select("[data-href]"):
         hrefs.append(tag["data-href"])
+
     for m in re.finditer(r"window\.open\(['\"](.*?)['\"]", html, re.I):
         hrefs.append(m.group(1))
 
-    # absolutiza + dedup
     base = page_url
     seen, uniq = set(), []
     for h in hrefs:
@@ -325,9 +349,13 @@ def find_pdf_links(page_url: str, html: str) -> Tuple[Optional[str], Optional[st
             seen.add(u)
             uniq.append(u)
 
-    edital = next((u for u in uniq if re.search(r"edital", u, re.I)), None) or (uniq[0] if uniq else None)
+    uniq = [u for u in uniq if not TRACKER_RX.search(u or "")]
+
+    cand_pdf = [u for u in uniq if str(u).lower().endswith(".pdf")]
+    edital = cand_pdf[0] if cand_pdf else next((u for u in uniq if re.search(r"edital", u, re.I)), None)
     anexo = next((u for u in uniq if re.search(r"(anexo|itens|item|termo|referencia)", u, re.I) and u != edital), None)
     return edital, anexo
+
 
 def ensure_pdf_url(u: Optional[str]) -> Optional[str]:
     if not u:
@@ -345,14 +373,26 @@ def ensure_pdf_url(u: Optional[str]) -> Optional[str]:
         pass
     return None
 
-def fetch_text_from_pdf_via_convertapi(pdf_bytes: bytes, token: str) -> str:
-    url = "https://v2.convertapi.com/convert/pdf/to/txt"
-    files = {"File": ("edital.pdf", pdf_bytes, "application/pdf")}
-    headers = {"Authorization": f"Bearer {token}"}
-    data = {"StoreFile": "false"}
-    r = requests.post(url, headers=headers, files=files, data=data, timeout=120)
-    r.raise_for_status()
-    return r.text
+
+def pdf_to_text(pdf_bytes: bytes, token: Optional[str]) -> str:
+    """Tenta ConvertAPI; se falhar, tenta pdfminer.six local (se instalado)."""
+    if token:
+        try:
+            url = "https://v2.convertapi.com/convert/pdf/to/txt"
+            files = {"File": ("edital.pdf", pdf_bytes, "application/pdf")}
+            headers = {"Authorization": f"Bearer {token}"}
+            data = {"StoreFile": "false"}
+            r = requests.post(url, headers=headers, files=files, data=data, timeout=120)
+            r.raise_for_status()
+            return r.text or ""
+        except Exception:
+            pass
+    try:
+        from pdfminer.high_level import extract_text
+        return extract_text(io.BytesIO(pdf_bytes)) or ""
+    except Exception:
+        return ""
+
 
 def extract_fields_from_pdf_text(edital_txt: str, anexo_txt: str) -> Dict[str, Any]:
     full = (edital_txt or "") + "\n\n" + (anexo_txt or "")
@@ -367,9 +407,12 @@ def extract_fields_from_pdf_text(edital_txt: str, anexo_txt: str) -> Dict[str, A
         "obsPrazosPdf": {"abertura": abertura, "encerramento": encerramento},
     }
 
+
+# ======================= Valor por HTML/JSON =======================
+
 def extract_value_from_html(html: str) -> Optional[float]:
     soup = BeautifulSoup(html, "html.parser")
-    for tag in soup(["script","style"]):
+    for tag in soup(["script", "style"]):
         tag.decompose()
     text = soup.get_text("\n", strip=True)
     for pat in HTML_PATTERNS_VALOR:
@@ -378,26 +421,181 @@ def extract_value_from_html(html: str) -> Optional[float]:
             return money_br_to_number(m.group(1))
     return None
 
-# -------------------- IA --------------------
+
+def extract_value_from_inline_json(html: str) -> Optional[float]:
+    for m in re.finditer(r'"?(valor(?:Estimado|Total|Global)?)"?\s*[:=]\s*"?R?\$?\s*([\d\.\,]+)"?', html, re.I):
+        val = money_br_to_number(m.group(2))
+        if val:
+            return val
+    return None
+
+
+def probe_json_endpoints(html: str, base_url: str) -> Optional[float]:
+    urls = set()
+    for m in re.finditer(r'https?://[^\s\'"]+(?:\.json|/api/[^\s\'"]+)', html, re.I):
+        urls.add(m.group(0))
+    for u in list(urls)[:10]:
+        try:
+            r = requests.get(u, timeout=20)
+            j = r.json()
+            stack = [j]
+            while stack:
+                cur = stack.pop()
+                if isinstance(cur, dict):
+                    for k, v in cur.items():
+                        if re.search(r'valor|estimado|global|total', str(k), re.I) and isinstance(v, (int, float, str)):
+                            if isinstance(v, (int, float)):
+                                return float(v)
+                            vv = money_br_to_number(str(v))
+                            if vv:
+                                return vv
+                        if isinstance(v, (dict, list)):
+                            stack.append(v)
+                elif isinstance(cur, list):
+                    stack.extend(cur[:200])
+        except Exception:
+            continue
+    return None
+
+
+def get_best_value_from_page(html: str, base_url: str) -> Optional[float]:
+    v = extract_value_from_html(html)
+    if v is not None:
+        return v
+    v = extract_value_from_inline_json(html)
+    if v is not None:
+        return v
+    v = probe_json_endpoints(html, base_url)
+    return v
+
+
+
+# ======================= Dados Abertos (valor estimado) =======================
+
+def _fmt_numero_aviso(num: Optional[str], ano: Optional[int]) -> Optional[str]:
+    if not num or not ano:
+        return None
+    try:
+        n = int(str(num))
+        a = int(str(ano))
+        return f"{n:05d}/{a:04d}"
+    except Exception:
+        return None
+
+def _first_num(d: Dict[str, Any], keys: List[str]) -> Optional[float]:
+    for k in keys:
+        if k in d and d[k] not in (None, "", []):
+            v = d[k]
+            if isinstance(v, (int, float)):
+                return float(v)
+            try:
+                vv = money_br_to_number(str(v))
+                if vv is not None:
+                    return vv
+            except Exception:
+                pass
+    return None
+
+def _parse_info_gerais_for_valor(s: str) -> Optional[float]:
+    if not s:
+        return None
+    m = re.search(r'(pre[cç]o|valor)\s+(total\s+)?estimado\s*[:\-]\s*R?\$?\s*([\d\.\,]+)', s, re.I)
+    if m:
+        return money_br_to_number(m.group(3))
+    return None
+
+def valor_from_dados_abertos(r: Resultado, session: Optional[requests.sessions.Session] = None) -> Optional[float]:
+    """Tenta obter valor estimado usando Compras/Dados Abertos."""
+    sess = session or requests.Session()
+    uasg = (r.unidade.codigo or "").strip()
+    num_aviso = _fmt_numero_aviso(r.numeroCompra, r.anoCompra)
+    if not uasg:
+        return None
+
+    # 1) licitacoes v1 por uasg+numero_aviso
+    #    https://compras.dados.gov.br/docs/licitacoes/v1/licitacoes.html
+    try:
+        if num_aviso:
+            u = f"https://compras.dados.gov.br/licitacoes/v1/licitacoes.json?uasg={uasg}&numero_aviso={num_aviso}"
+            rr = sess.get(u, timeout=40)
+            if rr.ok:
+                j = rr.json()
+                data = j.get("_embedded", {}).get("licitacoes", []) if isinstance(j, dict) else (j or [])
+                for row in data:
+                    # tenta chaves explícitas
+                    v = _first_num(row, ["valor_estimado_total", "valorEstimadoTotal", "valor_total_estimado", "valorTotalEstimado"])
+                    if v:
+                        return v
+                    # fallback: extrair de 'informacoes_gerais'
+                    v = _parse_info_gerais_for_valor(str(row.get("informacoes_gerais") or ""))
+                    if v:
+                        return v
+    except Exception:
+        pass
+
+    # 2) pregoes v1 por co_uasg+nu_pregao (heurística)
+    #    https://compras.dados.gov.br/docs/pregoes/v1/pregoes.html
+    try:
+        if r.numeroCompra and r.anoCompra:
+            try:
+                nu = f"{int(str(r.numeroCompra))}{int(str(r.anoCompra))}"
+            except Exception:
+                nu = None
+            if nu:
+                u = f"https://compras.dados.gov.br/pregoes/v1/pregoes.json?co_uasg={uasg}&nu_pregao={nu}"
+                rr = sess.get(u, timeout=40)
+                if rr.ok:
+                    j = rr.json()
+                    data = j.get("_embedded", {}).get("pregoes", []) if isinstance(j, dict) else (j or [])
+                    for row in data:
+                        v = _first_num(row, ["valorEstimadoTotal", "valor_estimado_total"])
+                        if v:
+                            return v
+    except Exception:
+        pass
+
+    # 3) precos_praticados v1 (proxy)
+    #    https://compras.dados.gov.br/docs/licitacoes/v1/precos_praticados.html
+    try:
+        if num_aviso:
+            u = f"https://compras.dados.gov.br/licitacoes/v1/precos_praticados.json?uasg={uasg}&numero_aviso={num_aviso}"
+            rr = sess.get(u, timeout=40)
+            if rr.ok:
+                j = rr.json()
+                data = j.get("_embedded", {}).get("precos_praticados", []) if isinstance(j, dict) else (j or [])
+                for row in data:
+                    v = _first_num(row, ["valor_total", "valorTotal"])
+                    if v:
+                        return v
+    except Exception:
+        pass
+
+    # 4) contratos v1 (pós-homologação; não é estimado)
+    #    https://compras.dados.gov.br/docs/contratos/v1/contratos.html
+    try:
+        if num_aviso:
+            u = f"https://compras.dados.gov.br/contratos/v1/contratos.json?uasg={uasg}&numero_aviso={int(r.numeroCompra) if r.numeroCompra else ''}"
+            rr = sess.get(u, timeout=40)
+            if rr.ok:
+                j = rr.json()
+                data = j.get("_embedded", {}).get("contratos", []) if isinstance(j, dict) else (j or [])
+                for row in data:
+                    v = _first_num(row, ["valor_inicial", "valorInicial", "valor_global", "valorGlobal"])
+                    if v:
+                        return v
+    except Exception:
+        pass
+
+    return None
+# ======================= IA =======================
 
 def call_openai_summary(data_for_ai: Dict[str, Any], api_key: str) -> Dict[str, Any]:
     """
-    Retorna estrutura:
-    {
-      "resumo": {"executivo": "..."},
-      "metricas": {"total": int, "prosseguir": int, "avaliar": int, "descartar": int},
-      "destaques": [{"numero":"90043/2025","orgao":"...","motivo":"..."}],
-      "por_item": {
-        "<chave>": {
-          "titulo": "string",
-          "pontos_positivos": ["..."],
-          "riscos": ["..."],
-          "valor_estimado_texto": "R$ ...",
-          "recomendacao": "prosseguir|avaliar|descartar",
-          "score_ai": 0-100
-        }
-      }
-    }
+    Retorna JSON com:
+      {resumo:{executivo}, metricas:{total,prosseguir,avaliar,descartar},
+       destaques:[{numero,orgao,motivo}],
+       por_item:{<chave>:{titulo,pontos_positivos[],riscos[],valor_estimado_texto,
+                          recomendacao,score_ai,categoria,tipo_precificacao,acoes_recomendadas[]}}}
     """
     url = "https://api.openai.com/v1/chat/completions"
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
@@ -425,8 +623,10 @@ def call_openai_summary(data_for_ai: Dict[str, Any], api_key: str) -> Dict[str, 
     system = (
         "Você é analista de licitações. Dado 'itens' e 'filtros', devolva JSON ESTRITO "
         "com {resumo:{executivo}, metricas:{total,prosseguir,avaliar,descartar}, "
-        "destaques:[{numero,orgao,motivo}], por_item:{<chave>:{titulo,pontos_positivos[],riscos[],valor_estimado_texto,recomendacao,score_ai}}}. "
-        "Se não souber valor, use '—'. Não invente números. Recomendações coerentes: prosseguir/avaliar/descartar."
+        "destaques:[{numero,orgao,motivo}], "
+        "por_item:{<chave>:{titulo,pontos_positivos[],riscos[],valor_estimado_texto,"
+        "recomendacao,score_ai,categoria,tipo_precificacao,acoes_recomendadas[]}}}. "
+        "Se não souber valor, use '—'. Não invente números. Recomendações coerentes."
     )
 
     body = {
@@ -448,9 +648,8 @@ def call_openai_summary(data_for_ai: Dict[str, Any], api_key: str) -> Dict[str, 
     except Exception:
         return {"resumo": {"executivo": content}}
 
-# -------------------- IA: casadores e fallbacks --------------------
 
-def key_candidates_for(r: "Resultado") -> List[str]:
+def key_candidates_for(r: Resultado) -> List[str]:
     keys = []
     if r.numeroControlePNCP:
         keys.append(str(r.numeroControlePNCP))
@@ -460,27 +659,26 @@ def key_candidates_for(r: "Resultado") -> List[str]:
         keys.append(str(r.numeroCompra))
     return [k for k in keys if k]
 
-def resolve_ai_item(ai: Dict[str, Any], r: "Resultado") -> Optional[Dict[str, Any]]:
-    """Tenta casar o item do relatório com a entrada correspondente em ai['por_item']."""
+
+def resolve_ai_item(ai: Dict[str, Any], r: Resultado) -> Optional[Dict[str, Any]]:
     if not ai:
         return None
     por_item = ai.get("por_item") or {}
-    # 1) chaves diretas
     for k in key_candidates_for(r):
         if k in por_item:
             return por_item[k]
-    # 2) fuzzy: contém numeroCompra
     if r.numeroCompra:
         for k, v in por_item.items():
             if str(r.numeroCompra) in str(k):
                 return v
     return None
 
+
 def _human_val_txt(v: Optional[float]) -> str:
     return fmt_money_br(v) if v is not None else "—"
 
-def ensure_ai_defaults(ai: Optional[Dict[str, Any]], resultados: List["Resultado"]) -> Dict[str, Any]:
-    """Garante que cada item tenha campos mínimos populados (fallback) se a IA não mandou."""
+
+def ensure_ai_defaults(ai: Optional[Dict[str, Any]], resultados: List[Resultado]) -> Dict[str, Any]:
     ai = ai or {}
     ai.setdefault("por_item", {})
     por_item = ai["por_item"]
@@ -488,7 +686,6 @@ def ensure_ai_defaults(ai: Optional[Dict[str, Any]], resultados: List["Resultado
     for r in resultados:
         entry = resolve_ai_item(ai, r)
         if not entry:
-            # cria entrada se não existir
             key = r.numeroControlePNCP or (f"{r.numeroCompra}/{r.anoCompra}" if r.numeroCompra else None)
             if not key:
                 continue
@@ -498,7 +695,6 @@ def ensure_ai_defaults(ai: Optional[Dict[str, Any]], resultados: List["Resultado
         entry.setdefault("titulo", (r.objetoCompra or "Licitação"))
         entry.setdefault("valor_estimado_texto", _human_val_txt(r.valorEstimado))
 
-        # Heurísticas simples se a IA não preencheu listas
         if not entry.get("pontos_positivos"):
             obj = (r.objetoCompra or "").lower()
             pos = []
@@ -521,7 +717,6 @@ def ensure_ai_defaults(ai: Optional[Dict[str, Any]], resultados: List["Resultado
                 riscos.append("Possível glosa por sobrepreço frente ao estimado")
             entry["riscos"] = riscos[:3]
 
-        # Herdar recomendação/score locais se IA não mandou
         if not entry.get("recomendacao"):
             entry["recomendacao"] = (r.analise or {}).get("recomendacao", "avaliar")
         if entry.get("score_ai") is None:
@@ -529,8 +724,8 @@ def ensure_ai_defaults(ai: Optional[Dict[str, Any]], resultados: List["Resultado
 
     return ai
 
-def ensure_ai_metrics(ai: Dict[str, Any], resultados: List["Resultado"]) -> Dict[str, Any]:
-    """Se IA não preencheu métricas, contamos com base nas recomendações por item."""
+
+def ensure_ai_metrics(ai: Dict[str, Any], resultados: List[Resultado]) -> Dict[str, Any]:
     ai = ai or {}
     m = ai.setdefault("metricas", {})
     if m.get("total") is None:
@@ -546,7 +741,36 @@ def ensure_ai_metrics(ai: Dict[str, Any], resultados: List["Resultado"]) -> Dict
         m.setdefault(k, v)
     return ai
 
-# -------------------- HTML --------------------
+
+# ======================= HTML helpers =======================
+
+from datetime import datetime as _dt_local
+
+
+def prazo_risco(i: Resultado) -> str:
+    def _parse(dt):
+        if not dt:
+            return None
+        try:
+            return _dt_local.fromisoformat(dt.replace("Z", "+00:00")).astimezone()
+        except Exception:
+            return None
+
+    now = _dt_local.now().astimezone()
+    candidates = [_parse(i.dataEncerramentoProposta), _parse(i.dataAberturaProposta)]
+    candidates = [d for d in candidates if d]
+    if not candidates:
+        return "—"
+    target = min(candidates)
+    days = (target - now).total_seconds() / 86400
+    if days <= 2:
+        return "Alto (≤2 dias)"
+    if days <= 7:
+        return "Médio (≤7 dias)"
+    return "Baixo"
+
+
+# ======================= HTML =======================
 
 def build_html(resultados: List[Resultado], filtros: Dict[str, Any], ai: Optional[Dict[str, Any]]) -> str:
     estilo = """
@@ -569,12 +793,12 @@ def build_html(resultados: List[Resultado], filtros: Dict[str, Any], ai: Optiona
     .ribbon{display:inline-block;background:#4f46e5;color:#fff;border-radius:999px;padding:2px 10px;font-size:12px;margin-left:8px}
     """
 
-    def ai_card_top(ai: Dict[str, Any]) -> str:
-        if not ai:
+    def ai_card_top(ai_block: Dict[str, Any]) -> str:
+        if not ai_block:
             return ""
-        resumo = ((ai.get("resumo") or {}).get("executivo")) or ""
-        mets = ai.get("metricas") or {}
-        destaques = ai.get("destaques") or []
+        resumo = ((ai_block.get("resumo") or {}).get("executivo")) or ""
+        mets = ai_block.get("metricas") or {}
+        destaques = ai_block.get("destaques") or []
         dlist = "".join(
             f"<li><b>{esc_html(d.get('numero') or '—')}</b> — {esc_html(d.get('orgao') or '—')}: {esc_html(d.get('motivo') or '')}</li>"
             for d in destaques[:5]
@@ -597,53 +821,54 @@ def build_html(resultados: List[Resultado], filtros: Dict[str, Any], ai: Optiona
         </div>
         """
 
-    def ai_block_for_item(ai: Dict[str, Any], r: Resultado) -> str:
-        if not ai:
+    def ai_block_for_item(ai_block: Dict[str, Any], r: Resultado) -> str:
+        if not ai_block:
             return ""
-        per = resolve_ai_item(ai, r)
+        per = resolve_ai_item(ai_block, r)
         if not per:
             return ""
-        pos = "".join(f"<li>{esc_html(x)}</li>" for x in per.get("pontos_positivos") or [])
-        rks = "".join(f"<li>{esc_html(x)}</li>" for x in per.get("riscos") or [])
+        pos = "".join(f"<li>{esc_html(x)}</li>" for x in (per.get("pontos_positivos") or []))
+        rks = "".join(f"<li>{esc_html(x)}</li>" for x in (per.get("riscos") or []))
+        acoes = "".join(f"<li>{esc_html(x)}</li>" for x in (per.get("acoes_recomendadas") or []))
+        cat = per.get("categoria")
+        tipo = per.get("tipo_precificacao")
         recomend = per.get("recomendacao") or "avaliar"
         score_ai = per.get("score_ai")
         val_txt = per.get("valor_estimado_texto") or _human_val_txt(r.valorEstimado)
         pill = f'<span class="pill">{esc_html(recomend.capitalize())}</span>'
-        score_html = f"<div class='small'>Score IA: {int(score_ai)} / 100</div>" if isinstance(score_ai, (int,float)) else ""
+        score_html = f"<div class='small'>Score IA: {int(score_ai)} / 100</div>" if isinstance(score_ai, (int, float)) else ""
         return f"""
         <div class="sec">
           <h3>Análise IA {pill}</h3>
           {score_html}
           <div class="grid">
             <div class="lab">Valor (IA):</div><div>{esc_html(val_txt)}</div>
+            <div class="lab">Categoria (IA):</div><div>{esc_html(cat or "—")}</div>
+            <div class="lab">Modelo/Tipo (IA):</div><div>{esc_html(tipo or "—")}</div>
             <div class="lab">Pontos positivos:</div><div><ul>{pos or '<li class="muted">—</li>'}</ul></div>
             <div class="lab">Riscos:</div><div><ul>{rks or '<li class="muted">—</li>'}</ul></div>
+            <div class="lab">Ações recomendadas:</div><div><ul>{acoes or '<li class="muted">—</li>'}</ul></div>
           </div>
         </div>
         """
 
-    def match_ai_featured(ai: Dict[str, Any], itens: List[Resultado]) -> Optional[int]:
-        """Retorna o índice do item destacado pela IA (primeiro de ai['destaques'])."""
-        if not ai:
+    def match_ai_featured(ai_block: Dict[str, Any], itens: List[Resultado]) -> Optional[int]:
+        if not ai_block:
             return None
-        destaques = ai.get("destaques") or []
+        destaques = ai_block.get("destaques") or []
         if not destaques:
             return None
         alvo = (destaques[0].get("numero") or "").strip()
         if not alvo:
             return None
-
-        # 1) numeroControlePNCP exato
         for idx, r in enumerate(itens):
             key_full = r.numeroControlePNCP or (f"{r.numeroCompra}/{r.anoCompra}" if r.numeroCompra else "")
             if key_full and key_full == alvo:
                 return idx
-        # 2) "numeroCompra/anoCompra" exato
         for idx, r in enumerate(itens):
             key_na = f"{r.numeroCompra}/{r.anoCompra}" if r.numeroCompra else ""
             if key_na and key_na == alvo:
                 return idx
-        # 3) só numeroCompra (quando o destaque vier "90025")
         for idx, r in enumerate(itens):
             if r.numeroCompra and (alvo == str(r.numeroCompra) or alvo.startswith(str(r.numeroCompra))):
                 return idx
@@ -743,11 +968,12 @@ def build_html(resultados: List[Resultado], filtros: Dict[str, Any], ai: Optiona
             <div class="lab">Abertura das Propostas:</div><div>{fmt_date_br(i.dataAberturaProposta)}</div>
             <div class="lab">Encerramento Recepção:</div><div>{fmt_date_br(i.dataEncerramentoProposta)}</div>
             <div class="lab">Início da Disputa:</div><div>{fmt_date_br(i.inicioDisputa)}</div>
+            <div class="lab">Risco de Prazo (local):</div><div>{esc_html(prazo_risco(i))}</div>
           </div>
         </div>
         """
 
-    def render_card(i: Resultado, ai_block: Dict[str, Any], destacado: bool = False) -> str:
+    def render_card(i: Resultado, ai_b: Dict[str, Any], destacado: bool = False) -> str:
         banner = '<span class="ribbon">Destaque IA</span>' if destacado else ''
         return f"""
             <div class="card {'featured' if destacado else ''}">
@@ -763,22 +989,15 @@ def build_html(resultados: List[Resultado], filtros: Dict[str, Any], ai: Optiona
               {bloco_viabilidade()}
               <div class="hr"></div>
               {bloco_prazos(i)}
-              {ai_block_for_item(ai_block, i)}
+              {ai_block_for_item(ai_b, i)}
             </div>
         """
 
-    # Resumo IA no topo (quando houver)
-    top_ai_html = ai_card_top(ai)
-
-    # Seleciona destaque IA (primeiro da lista de destaques)
-    featured_idx = match_ai_featured(ai, resultados)
-    cards_html = []
-
-    # Renderiza destaque primeiro (se houver match)
+    top_ai_html = ai_card_top(ai) if ai else ""
+    featured_idx = match_ai_featured(ai, resultados) if ai else None
+    cards_html: List[str] = []
     if featured_idx is not None:
         cards_html.append(render_card(resultados[featured_idx], ai, destacado=True))
-
-    # Renderiza os demais, pulando o que já foi destaque
     for idx, r in enumerate(resultados):
         if featured_idx is not None and idx == featured_idx:
             continue
@@ -800,7 +1019,8 @@ def build_html(resultados: List[Resultado], filtros: Dict[str, Any], ai: Optiona
 """
     return html
 
-# -------------------- Conversão HTML->PDF --------------------
+
+# ======================= Conversão HTML -> PDF =======================
 
 def html_to_pdf_via_convertapi(html: str, token: str) -> bytes:
     url = "https://v2.convertapi.com/convert/html/to/pdf"
@@ -811,13 +1031,14 @@ def html_to_pdf_via_convertapi(html: str, token: str) -> bytes:
     r.raise_for_status()
     return r.content
 
-# -------------------- Main --------------------
+
+# ======================= Main =======================
 
 def main():
-    p = argparse.ArgumentParser(description="Gerador de PDF de licitações (PNCP)")
-    p.add_argument("--api-key", default="", help="Chave de autorização local (simulação do x-api-key do n8n).")
-    p.add_argument("--openai-key", default=os.getenv("OPENAI_API_KEY", ""), help="OpenAI API key (ou use env OPENAI_API_KEY)")
-    p.add_argument("--convertapi-token", default=os.getenv("CONVERTAPI_TOKEN", ""), help="ConvertAPI token (ou use env CONVERTAPI_TOKEN)")
+    p = argparse.ArgumentParser(description="Gerador de relatório de licitações (PNCP)")
+    p.add_argument("--api-key", default="", help="Chave local opcional (simula x-api-key do n8n).")
+    p.add_argument("--openai-key", default=os.getenv("OPENAI_API_KEY", ""), help="OpenAI API key")
+    p.add_argument("--convertapi-token", default=os.getenv("CONVERTAPI_TOKEN", ""), help="Token ConvertAPI")
     p.add_argument("--palavra", default="")
     p.add_argument("--uf", default="")
     p.add_argument("--orgao", default="")
@@ -831,7 +1052,7 @@ def main():
     p.add_argument("--modo-disputa", default="")
     p.add_argument("--tamanho-pagina", type=int, default=50)
     p.add_argument("--filename", default="licitacoes.pdf")
-    p.add_argument("--extract-pdf", type=int, default=1, help="Extrair campos dos PDFs via ConvertAPI (1/0). Requer CONVERTAPI_TOKEN.")
+    p.add_argument("--extract-pdf", type=int, default=1, help="Extrair texto de PDF (1/0). Requer CONVERTAPI_TOKEN para o caminho ConvertAPI; sem ele, tenta pdfminer.")
     args = p.parse_args()
 
     try:
@@ -861,32 +1082,8 @@ def main():
     print("[info] Consultando PNCP...", file=sys.stderr)
     resp = fetch_pncp(query)
     arr = resp["arr"]
-
     resultados = normalize_results(arr, filtros)
-    # --- Filtro duro por palavra-chave (inclui sinônimos quando chave é "software") ---
-    if args.palavra:
-        _p = nlower(args.palavra)
-        def _is_softwareish(text):
-            t = nlower(text or "")
-            for w in ["software","sistema","aplicativo","plataforma","licenca","licenças","ti","informatica","tecnologia da informacao","nuvem","cloud","erp","crm","banco de dados","portal","web","site","backup","seguranca da informacao"]:
-                if w in t:
-                    return True
-            return False
-        if _p in {"software","ti","informatica","tecnologia da informacao"}:
-            resultados = [r for r in resultados if _is_softwareish(r.objetoCompra)]
-        else:
-            resultados = [r for r in resultados if _p in nlower(r.objetoCompra or "")]
-    # --- Garantir ao menos 1 "prosseguir" ---
-    if resultados and not any((r.analise or {}).get("recomendacao") == "prosseguir" for r in resultados):
-        def _score_key(r):
-            base = (r.analise or {}).get("score", 0)
-            bonus = 10 if args.palavra and (nlower(args.palavra) in nlower(r.objetoCompra or "")) else 0
-            return base + bonus
-        _best = max(resultados, key=_score_key)
-        _best.analise["recomendacao"] = "prosseguir"
-        _best.analise["score"] = max(80, _best.analise.get("score", 0))
 
-    # Enriquecimento via páginas/PDFs
     ai_payload = {"total": len(resultados), "resultados": [asdict(r) for r in resultados], "filtros": filtros}
 
     token = os.getenv("CONVERTAPI_TOKEN", args.convertapi_token) if args.extract_pdf else ""
@@ -903,29 +1100,30 @@ def main():
                 if html_r.ok:
                     page_html = html_r.text
                     ed, an = find_pdf_links(link, page_html)
-                    edital_url = ensure_pdf_url(ed) or ed
-                    anexo_url  = ensure_pdf_url(an) or an
+                    edital_url = ensure_pdf_url(ed)
+                    anexo_url = ensure_pdf_url(an)
             except Exception as e:
                 print(f"[aviso] Falha ao baixar/parsear página origem: {e}", file=sys.stderr)
 
         if not edital_url and link.lower().endswith(".pdf"):
             edital_url = link
 
-        if token and (edital_url or anexo_url):
+        # PDF -> texto (edital/anexo)
+        if (edital_url or anexo_url) and (token or True):
             edital_txt = ""
             anexo_txt = ""
             try:
                 if edital_url:
                     pr = requests.get(edital_url, timeout=120)
                     pr.raise_for_status()
-                    edital_txt = fetch_text_from_pdf_via_convertapi(pr.content, token)
+                    edital_txt = pdf_to_text(pr.content, token)
             except Exception as e:
                 print(f"[aviso] Falha pdf->txt (edital): {e}", file=sys.stderr)
             try:
                 if anexo_url:
                     pr = requests.get(anexo_url, timeout=120)
                     pr.raise_for_status()
-                    anexo_txt = fetch_text_from_pdf_via_convertapi(pr.content, token)
+                    anexo_txt = pdf_to_text(pr.content, token)
             except Exception as e:
                 print(f"[aviso] Falha pdf->txt (anexo): {e}", file=sys.stderr)
 
@@ -940,19 +1138,28 @@ def main():
             if obs.get("encerramento") and not r.dataEncerramentoProposta:
                 r.dataEncerramentoProposta = obs["encerramento"]
 
-        # Fallback: valor no HTML
+        # Fallback: HTML/JSON
         if r.valorEstimado is None and page_html:
             try:
-                v_html = extract_value_from_html(page_html)
+                v_html = get_best_value_from_page(page_html, link)
                 if v_html is not None:
                     r.valorEstimado = v_html
             except Exception as e:
-                print(f"[aviso] Falha ao extrair valor do HTML: {e}", file=sys.stderr)
+                print(f"[aviso] Falha ao extrair valor do HTML/JSON: {e}", file=sys.stderr)
 
         print(f"[depuracao] {r.numeroCompra}/{r.anoCompra}: link={link} edital={edital_url} anexo={anexo_url} valor={r.valorEstimado}", file=sys.stderr)
 
-    # IA opcional
-    ai_block = None
+        # Dados Abertos (última tentativa estruturada)
+        if r.valorEstimado is None:
+            try:
+                v_da = valor_from_dados_abertos(r)
+                if v_da is not None:
+                    r.valorEstimado = v_da
+            except Exception as e:
+                print(f"[aviso] Dados Abertos falhou: {e}", file=sys.stderr)
+
+    # IA (opcional)
+    ai_block: Optional[Dict[str, Any]] = None
     if parse_flag(args.ai) and (args.openai_key or os.getenv("OPENAI_API_KEY")):
         key = args.openai_key or os.getenv("OPENAI_API_KEY")
         try:
@@ -960,11 +1167,17 @@ def main():
         except Exception as e:
             ai_block = {"resumo": {"executivo": f"Falha IA: {e}"}}
 
-    # Preenche faltantes / garante métricas
     ai_block = ensure_ai_defaults(ai_block, resultados) if ai_block is not None else None
     ai_block = ensure_ai_metrics(ai_block, resultados) if ai_block is not None else None
 
-    html = build_html(resultados, filtros, ai_block)
+    # build_html com guard
+    try:
+        html = build_html(resultados, filtros, ai_block)
+    except Exception as e:
+        print(f"[erro] build_html: {e}", file=sys.stderr)
+        html = None
+    if not isinstance(html, str):
+        html = "<!doctype html><meta charset='utf-8'><body><pre>Falha ao gerar HTML.</pre></body>"
 
     # Sempre grava HTML e JSON
     html_path = os.path.abspath("licitacoes.html")
@@ -992,8 +1205,14 @@ def main():
 
     json_path = os.path.abspath("licitacoes.json")
     with open(json_path, "w", encoding="utf-8") as jf:
-        json.dump({"filtros": filtros, "total": len(resultados), "resultados": [asdict(r) for r in resultados], "ai": ai_block}, jf, ensure_ascii=False, indent=2)
+        json.dump(
+            {"filtros": filtros, "total": len(resultados), "resultados": [asdict(r) for r in resultados], "ai": ai_block},
+            jf,
+            ensure_ascii=False,
+            indent=2,
+        )
     print(f"[ok] JSON salvo em: {json_path}", file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()
