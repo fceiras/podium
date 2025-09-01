@@ -1,0 +1,366 @@
+{
+  "filtros": {
+    "palavra": "software",
+    "uf": "PI",
+    "orgao": "",
+    "minValor": 0.0,
+    "codModalidade": 6,
+    "tamanhoPagina": 10
+  },
+  "total": 10,
+  "resultados": [
+    {
+      "numeroControlePNCP": "01612564000148-1-000038/2025",
+      "numeroCompra": "018",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "registro de preços para futura e eventual contratação de empresa especializada no fornecimento de livros, em atendimento às demandas da Secretaria Municipal de Educação do Município de Campo Alegre do Fidalgo-PI",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-09T18:01:00",
+      "dataEncerramentoProposta": "2025-07-25T07:01:00",
+      "dataPublicacaoPncp": "2025-07-13T10:22:31",
+      "orgao": {
+        "cnpj": "01612564000148",
+        "razaoSocial": "MUNICIPIO DE CAMPO ALEGRE DO FIDALGO"
+      },
+      "unidade": {
+        "codigo": "583",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": null,
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "06554406000100-1-000095/2025",
+      "numeroCompra": "059",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "[Portal de Compras Públicas] - Contratação de empresa para a prestação de serviços de manutenção de computadores e impressoras para atender as necessidades da Prefeitura Municipal de Barras-PI.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-14T09:00:00",
+      "dataEncerramentoProposta": "2025-07-25T09:00:00",
+      "dataPublicacaoPncp": "2025-07-13T15:41:59",
+      "orgao": {
+        "cnpj": "06554406000100",
+        "razaoSocial": "MUNICIPIO DE BARRAS"
+      },
+      "unidade": {
+        "codigo": "01",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://portaldecompraspublicas.com.br/processos/PI/Prefeitura-Municipal-de-Barras-2226/PE-059-2025-2025-404820",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "06554331000150-1-000018/2025",
+      "numeroCompra": "003/2025-3Relan.",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Aquisição de gêneros alimentícios perecíveis e não  perecíveis, destinados a atender aos órgãos da  Administração Pública Municipal de São João da  Serra/PI ",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-14T08:00:00",
+      "dataEncerramentoProposta": "2025-07-24T09:00:00",
+      "dataPublicacaoPncp": "2025-07-13T17:35:46",
+      "orgao": {
+        "cnpj": "06554331000150",
+        "razaoSocial": "MUNICIPIO DE SAO JOAO DA SERRA"
+      },
+      "unidade": {
+        "codigo": "43545",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "06554364000108-1-000038/2025",
+      "numeroCompra": "PE043/2025",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "2.1.\tRegistro de preços para contratação de empresa especializada na locação, montagem, desmontagem e manutenção de estrutura de eventos, incluindo palco, sistema de som, iluminação profissional, grids, tendas, estandes, gerador, banheiros e demais estruturas para atender as festividades e eventos no município de Cristino Castro – PI",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-14T08:00:00",
+      "dataEncerramentoProposta": "2025-07-25T08:00:00",
+      "dataPublicacaoPncp": "2025-07-13T21:25:55",
+      "orgao": {
+        "cnpj": "06554364000108",
+        "razaoSocial": "MUNICIPIO DE CRISTINO CASTRO"
+      },
+      "unidade": {
+        "codigo": "2244",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "01612565000192-1-000014/2025",
+      "numeroCompra": "013",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Aquisição de fardamentos e outros afins para atender as necessidades de todas as Secretarias do Município de Barra D'Alcântara -PI.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-13T00:00:00",
+      "dataEncerramentoProposta": "2025-07-23T00:00:00",
+      "dataPublicacaoPncp": "2025-07-13T21:42:03",
+      "orgao": {
+        "cnpj": "01612565000192",
+        "razaoSocial": "MUNICIPIO DE BARRA D'ALCANTARA"
+      },
+      "unidade": {
+        "codigo": "1",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "http://www.licitacaobarradalcantara.com.br",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "06553861000183-1-000032/2025",
+      "numeroCompra": "90027",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "O objeto da presente licitação é Registro de preço para a contratação de empresa para fornecimento de GÁS DE COZINHA a fim de suprir as necessidades da Prefeitura e demais Secretarias, do Município de Piripiri",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-23T08:00:00",
+      "dataEncerramentoProposta": "2025-08-04T09:00:00",
+      "dataPublicacaoPncp": "2025-07-14T07:18:45",
+      "orgao": {
+        "cnpj": "06553861000183",
+        "razaoSocial": "MUNICIPIO DE PIRIPIRI"
+      },
+      "unidade": {
+        "codigo": "981167",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=98116705900272025",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "05522917000170-1-000053/2025",
+      "numeroCompra": "90029",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 3,
+      "modoDisputaNome": "Aberto-Fechado",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Contratação, pelo período 12 (doze) meses, contados a partir da data da publicação do contrato, podendo ser prorrogado por igual período, desde que comprovado o preço vantajoso, para futura e eventual contração de serviços de locação de sistema de tratamento de água por osmose reversa e máquinas de hemodiálise, a fim de atender às necessidades do HUT (HOSPITAL DE URGÊNCIA DE TERESINA).",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-14T08:00:00",
+      "dataEncerramentoProposta": "2025-07-29T09:00:00",
+      "dataPublicacaoPncp": "2025-07-14T07:23:18",
+      "orgao": {
+        "cnpj": "05522917000170",
+        "razaoSocial": "FUNDACAO MUNICIPAL DE SAUDE"
+      },
+      "unidade": {
+        "codigo": "927337",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92733705900292025",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "08839135000157-1-000010/2025",
+      "numeroCompra": "90008",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 3,
+      "modoDisputaNome": "Aberto-Fechado",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Registro de Preços para futura contratação de uma empresa especializada em desinsetização, desratização, descupinização, desalojamento/repelência de pombos e controle de larvas para controle de vetores de praga (limpeza de fossas, caixas d'água e cisternas), para garantir o bom funcionamento das atividades institucionais da ETIPI-PI e de sua subsidiária/coparticipante PIAUÍ-LINK.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-14T08:00:00",
+      "dataEncerramentoProposta": "2025-07-29T09:00:00",
+      "dataPublicacaoPncp": "2025-07-14T07:28:58",
+      "orgao": {
+        "cnpj": "08839135000157",
+        "razaoSocial": "AGENCIA DE TECNOLOGIA DA INFORMACAO DO ESTADO DO PIAUI - ATI"
+      },
+      "unidade": {
+        "codigo": "929895",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92989505900082025",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "05805924000189-1-000042/2025",
+      "numeroCompra": "90020",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "Registro de preços, pelo prazo de 12 (doze) meses, para a eventual aquisição de material permanente (eletroeletrônicos), conforme condições e exigências estabelecidas neste Edital e seus anexos.",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-14T08:00:00",
+      "dataEncerramentoProposta": "2025-07-24T09:00:00",
+      "dataPublicacaoPncp": "2025-07-14T07:33:12",
+      "orgao": {
+        "cnpj": "05805924000189",
+        "razaoSocial": "PIAUI PROCURADORIA GERAL DA JUSTICA"
+      },
+      "unidade": {
+        "codigo": "926092",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "https://cnetmobile.estaleiro.serpro.gov.br/comprasnet-web/public/landing?destino=acompanhamento-compra&compra=92609205900202025",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    },
+    {
+      "numeroControlePNCP": "06553697000104-1-000037/2025",
+      "numeroCompra": "031/2025",
+      "anoCompra": 2025,
+      "modalidadeId": 6,
+      "modalidadeNome": "Pregão - Eletrônico",
+      "modoDisputaId": 1,
+      "modoDisputaNome": "Aberto",
+      "situacaoCompraId": 1,
+      "situacaoCompraNome": "Divulgada no PNCP",
+      "objetoCompra": "locação de um veículo tipo passeio para atender às necessidades da Secretaria Municipal de Educação de Conceição do Canindé-PI”. ",
+      "valorEstimado": null,
+      "dataAberturaProposta": "2025-07-14T08:30:00",
+      "dataEncerramentoProposta": "2025-07-25T08:30:00",
+      "dataPublicacaoPncp": "2025-07-14T08:13:26",
+      "orgao": {
+        "cnpj": "06553697000104",
+        "razaoSocial": "MUNICIPIO DE CONCEICAO DO CANINDE"
+      },
+      "unidade": {
+        "codigo": "2210",
+        "nome": "",
+        "uf": ""
+      },
+      "linkSistemaOrigem": "",
+      "analise": {
+        "score": 45,
+        "recomendacao": "avaliar"
+      },
+      "processo": "",
+      "tipoJulgamento": "Menor Preço (quando aplicável)",
+      "sistema": "PNCP / Compras públicas",
+      "leiAplicavel": "Lei 14.133/2021",
+      "inicioDisputa": ""
+    }
+  ],
+  "ai": {
+    "raw": "```json\n{\n  \"sumario\": {\n    \"totalLicitações\": 10,\n    \"modalidade\": \"Pregão - Eletrônico\",\n    \"situacao\": \"Divulgada no PNCP\",\n    \"ano\": 2025\n  },\n  \"destaques\": [\n    {\n      \"numeroCompra\": \"018\",\n      \"orgao\": \"MUNICIPIO DE CAMPO ALEGRE DO FIDALGO\",\n      \"objetoCompra\": \"Registro de preços para futura e eventual contratação de empresa especializada no fornecimento de livros.\"\n    },\n    {\n      \"numeroCompra\": \"059\",\n      \"orgao\": \"MUNICIPIO DE BARRAS\",\n      \"objetoCompra\": \"Contratação de empresa para a prestação de serviços de manutenção de computadores e impressoras.\"\n    },\n    {\n      \"numeroCompra\": \"003/2025-3Relan.\",\n      \"orgao\": \"MUNICIPIO DE SAO JOAO DA SERRA\",\n      \"objetoCompra\": \"Aquisição de gêneros alimentícios perecíveis e não perecíveis.\"\n    },\n    {\n      \"numeroCompra\": \"PE043/2025\",\n      \"orgao\": \"MUNICIPIO DE CRISTINO CASTRO\",\n      \"objetoCompra\": \"Registro de preços para locação e manutenção de estrutura de eventos.\"\n    },\n    {\n      \"numeroCompra\": \"90027\",\n      \"orgao\": \"MUNICIPIO DE PIRIPIRI\",\n      \"objetoCompra\": \"Registro de preço para fornecimento de GÁS DE COZINHA.\"\n    }\n  ],\n  \"recomendacaoGeral\": \"Avaliar as propostas com atenção, considerando a relevância dos serviços e produtos para as respectivas secretarias municipais.\"\n}\n```"
+  }
+}
